@@ -4,4 +4,6 @@ linkbot.conf.bak
 *.pyc
 auth.include
 pass
+linkdoggo.sublime-project
+linkdoggo.sublime-workspace
 *~
