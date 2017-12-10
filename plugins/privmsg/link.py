@@ -1,8 +1,11 @@
+from __future__ import unicode_literals
 def main(data):
+    from HTMLParser import HTMLParser
     args = argv('@',data['recv'])
     # look for URL
     link = geturl(data['recv'])
     if link and link != "" and not modeCheck('b', data):
+        parser = HTMLParser()
         link = link[0]
         # look for title
         badext = ('.cgi','.pdf')
@@ -11,13 +14,13 @@ def main(data):
             if not link[-4:].lower() in imgext:
                 title = gettitle(link)
                 if title:
-                    title = html_decode(title)
                     # encode unicode object to byte string
                     if type(title) == unicode:
                         title = title.encode('utf-8', "ignore")
                     title = title.replace('\n',' ')
                     title = title.replace('\r',' ')
                     title = title.strip()
+                    title = parser.unescape(title)
                     if len(title) >= 150:
                         title = title[:150]
                     if len(link) > int(data['config']['settings']['maxLinkLen']):
