@@ -1,38 +1,38 @@
 def main(data):
+    import requests
+    import json
+    class CleverBot(object):
+        def __init__(self, user, key, nick=None):
+            self.user = user
+            self.key = key
+            self.nick = nick
+
+            body = {
+                'user': user,
+                'key': key,
+                'nick': nick
+            }
+
+            requests.post('https://cleverbot.io/1.0/create', json=body)
+
+
+        def query(self, text):
+            body = {
+                'user': self.user,
+                'key': self.key,
+                'nick': self.nick,
+                'text': text
+            }
+
+            r = requests.post('https://cleverbot.io/1.0/ask', json=body)
+            r = json.loads(r.text)
+
+            if r['status'] == 'success':
+                return r['response']
+            else:
+                return False
     if data['config']['settings']['botNick'] in data['recv']\
             or data['config']['settings']['botNick'].lower() in data['recv']:
-        import requests
-        import json
-        class CleverBot(object):
-            def __init__(self, user, key, nick=None):
-                self.user = user
-                self.key = key
-                self.nick = nick
-
-                body = {
-                    'user': user,
-                    'key': key,
-                    'nick': nick
-                }
-
-                requests.post('https://cleverbot.io/1.0/create', json=body)
-
-
-            def query(self, text):
-                body = {
-                    'user': self.user,
-                    'key': self.key,
-                    'nick': self.nick,
-                    'text': text
-                }
-
-                r = requests.post('https://cleverbot.io/1.0/ask', json=body)
-                r = json.loads(r.text)
-
-                if r['status'] == 'success':
-                    return r['response']
-                else:
-                    return False
         args = argv('', data['recv'])
         query = args['message']
         query = query.replace('\n','')
