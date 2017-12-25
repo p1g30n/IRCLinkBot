@@ -17,10 +17,10 @@ def main(data):
                     # encode unicode object to byte string
                     if type(title) == unicode:
                         title = title.encode('utf-8', "ignore")
+                    title = parser.unescape(title)
                     title = title.replace('\n',' ')
                     title = title.replace('\r',' ')
                     title = title.strip()
-                    title = parser.unescape(title)
                     if len(title) >= 150:
                         title = title[:150]
                     if len(link) > int(data['config']['settings']['maxLinkLen']):
