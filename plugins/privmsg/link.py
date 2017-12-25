@@ -15,8 +15,9 @@ def main(data):
                 title = gettitle(link)
                 if title:
                     # encode unicode object to byte string
-                    if type(title) == unicode:
-                        title = title.encode('utf-8', "ignore")
+                    # if type(title) == unicode:
+                        # title = title.encode('utf-8', "ignore")
+                    title = unicode(title)
                     title = parser.unescape(title)
                     title = title.replace('\n',' ')
                     title = title.replace('\r',' ')
