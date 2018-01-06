@@ -37,7 +37,7 @@ def main(data):
         query = args['message']
         query = query.replace('\n','')
         query = query.replace('\r','')
-        client = CleverBot(user='zfGBW2stCf5BgwVn', key='B2zNaEh5upGyWkpvFgvphHkPVinMFthX')
+        client = CleverBot(user='zfGBW2stCf5BgwVn', key='B2zNaEh5upGyWkpvFgvphHkPVinMFthX', nick=data['config']['settings']['botNick'].lower())
         answer = client.query(query)
         try:
             if answer:
