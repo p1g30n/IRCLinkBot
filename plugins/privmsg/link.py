@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 def main(data):
+    from ftfy import fix_text
     from HTMLParser import HTMLParser
     args = argv('@',data['recv'])
     # look for URL
@@ -15,9 +16,10 @@ def main(data):
                 title = gettitle(link)
                 if title:
                     # encode unicode object to byte string
-                    if type(title) == unicode:
-                        title = title.encode('utf-8', "ignore")
+                    # if type(title) == unicode:
+                    #     title = title.encode('utf-8', "ignore")
                     title = parser.unescape(title)
+                    title = fix_text(title)
                     title = title.replace('\n',' ')
                     title = title.replace('\r',' ')
                     title = title.strip()
