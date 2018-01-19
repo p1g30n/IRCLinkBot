@@ -2,6 +2,9 @@ def main(data):
     if '!wa ' in data['recv']:
         import urllib
         from BeautifulSoup import BeautifulSoup
+        from HTMLParser import HTMLParser
+        from ftfy import fix_text
+
         args = argv('!wa',data['recv'])
         if args['argv'][1] == "-q":
             quietMode = True
@@ -22,10 +25,13 @@ def main(data):
             for pod in pods:
                 # Grab plaintext of the result
                 answer = pod.subpod.plaintext.string
-                if answer == None:                   
+                if answer == None:
                     continue
                 # Strip html entities from the response
-                answer = html_decode(str(answer))
+                answer = fix_text(answer)
+                parser = HTMLParser()
+                answer = parser.unescape(answer)
+                # answer = html_decode(str(answer))
                 for match in re.finditer(r"\\:([a-f|A-F|0-9]{4})", answer):
                     # Replace it with its corresponding Unicode character
                     try:
