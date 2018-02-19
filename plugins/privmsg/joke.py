@@ -15,11 +15,11 @@ def main(data):
 		lines = open('etc/yomama.txt').read().splitlines()
 		yomama = random.choice(lines)
 		data['api'].say(args['channel'], yomama)
-	if '!joke' in data['recv']:
+	if '!jok' in data['recv']:
 		args = argv('!joke', data['recv'])
 		try:
-			response = requests.get('http://api.icndb.com/jokes/random')
-			joke = json.loads(response.text)
-			data['api'].say(args['channel'], joke['value']['joke'])
+			response = requests.get('https://icanhazdadjoke.com/', headers={"Accept":"application/json"})
+			joke = response.json()
+			data['api'].say(args['channel'], joke['joke'])
 		except:
 		    data['api'].say(args['channel'], 'No jok.')
