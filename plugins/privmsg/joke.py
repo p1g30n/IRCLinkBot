@@ -6,7 +6,7 @@ def main(data):
 	if '!jew' in data['recv']:
 		parser = HTMLParser()
 		args = argv('!jew', data['recv'])
-		lines = open('etc/jew.txt').read().splitlines()
+		lines = open('etc/jewish-jokes.txt').read().splitlines()
 		jew = parser.unescape(random.choice(lines))
 		data['api'].say(args['channel'], jew)
 	if '!yomama' in data['recv']:
