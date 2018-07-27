@@ -55,7 +55,7 @@ def main(data):
             if answer:
                 debug = 'Query: ' + query + ' -- Answer: "' + answer + '"'
                 print debug
-                if data['config']['settings']['gizoogle']:
+                if data['config']['settings']['gizoogle'] == 'True':
                     gizquery = answer
                     gizanswer = client.gizoogle(gizquery)
                     try:
