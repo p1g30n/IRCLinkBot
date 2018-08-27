@@ -15,6 +15,12 @@ def main(data):
 		lines = open('etc/yomama.txt').read().splitlines()
 		yomama = random.choice(lines)
 		data['api'].say(args['channel'], yomama)
+	if '!insult' in data['recv']:
+		parser = HTMLParser()
+		args = argv('!jew', data['recv'])
+		lines = open('etc/luther.txt').read().splitlines()
+		jew = parser.unescape(random.choice(lines))
+		data['api'].say(args['channel'], jew)	
 	if '!jok' in data['recv']:
 		args = argv('!joke', data['recv'])
 		try:
