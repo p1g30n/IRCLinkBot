@@ -16,11 +16,15 @@ def main(data):
 		yomama = random.choice(lines)
 		data['api'].say(args['channel'], yomama)
 	if '!insult' in data['recv']:
+		args = argv('!insult', data['recv'])
+		if args['argv'][1:]:
+			insult = args['argv'][1]+": "
+		else:
+			insult = ''
 		parser = HTMLParser()
-		args = argv('!jew', data['recv'])
 		lines = open('etc/luther.txt').read().splitlines()
-		jew = parser.unescape(random.choice(lines))
-		data['api'].say(args['channel'], jew)	
+		insult += parser.unescape(random.choice(lines))
+		data['api'].say(args['channel'], insult)	
 	if '!jok' in data['recv']:
 		args = argv('!joke', data['recv'])
 		try:
