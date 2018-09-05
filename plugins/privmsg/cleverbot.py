@@ -33,15 +33,16 @@ def main(data):
             else:
                 return False
 
-        def gizoogle(self, text):
-            params = {"translatetext": text}
-            target_url = "http://www.gizoogle.net/textilizer.php"
+        def dialectize(self, text, dialect):
+            params = {"text": text, "dialect": dialect}
+            target_url = "http://www.rinkworks.com/dialect/dialectt.cgi"
             resp = requests.post(target_url, data=params)
-            soup_input = re.sub("/name=translatetext[^>]*>/", 'name="translatetext" >', resp.text)
-            soup = bs4.BeautifulSoup(soup_input, "lxml")
-            giz = soup.find_all(text=True)
-            giz_text = giz[39].strip("\r\n")  # Hacky, but consistent.
-            return giz_text
+            #print resp.text;
+            soup = bs4.BeautifulSoup(resp.text, "lxml")
+            result = soup.find("div", {"class":"dialectized_text"}).find('p').text;
+            result = result.strip("\r\n")
+            #giz_text = giz[39].strip("\r\n")  # Hacky, but consistent.
+            return result
 
     if data['config']['settings']['botNick'] in data['recv']\
             or data['config']['settings']['botNick'].lower() in data['recv']:
@@ -55,14 +56,16 @@ def main(data):
             if answer:
                 debug = 'Query: ' + query + ' -- Answer: "' + answer + '"'
                 print debug
-                if data['config']['settings']['gizoogle'] == 'True':
-                    gizquery = answer
-                    gizanswer = client.gizoogle(gizquery)
+                dialectsetting = data['config']['settings']['dialect'].lower() 
+                dialects = ['redneck' , 'jive', 'cockney', 'fudd', 'bork', 'moron', 'piglatin', 'hckr', 'censor']
+                if dialectsetting in dialects:
+                    dialectquery = answer
+                    dialectanswer = client.dialectize(dialectquery, dialectsetting)
                     try:
-                        if gizanswer:
-                            debug = 'Query: ' + gizquery + ' -- Answer: "' + gizanswer + '"'
+                        if dialectanswer:
+                            debug = 'Query: ' + dialectquery + ' with dialect: "' + dialectsetting + '" -- Answer: "' + dialectanswer + '"'
                             print debug
-                            data['api'].say(args['channel'], args['nick'] + ': ' + gizanswer)
+                            data['api'].say(args['channel'], args['nick'] + ': ' + dialectanswer)
                     except Exception as gizerr:
                         print gizerr
                         print "error querying gizoogle"
