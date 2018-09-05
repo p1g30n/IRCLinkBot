@@ -18,7 +18,8 @@ def main(data):
 	if '!insult' in data['recv']:
 		args = argv('!insult', data['recv'])
 		if args['argv'][1:]:
-			insult = args['argv'][1]+": "
+			nick = ' '.join(args['argv'][1:])
+			insult = nick+": "
 		else:
 			insult = ''
 		parser = HTMLParser()
