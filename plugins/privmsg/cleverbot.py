@@ -1,5 +1,6 @@
 def main(data):
     import requests
+    import random
     import json
     import bs4
     class CleverBot(object):
@@ -56,19 +57,21 @@ def main(data):
             if answer:
                 debug = 'Query: ' + query + ' -- Answer: "' + answer + '"'
                 print debug
-                dialectsetting = data['config']['settings']['dialect'].lower() 
-                dialects = ['redneck' , 'jive', 'cockney', 'fudd', 'bork', 'moron', 'piglatin', 'hckr', 'censor']
-                if dialectsetting in dialects:
-                    dialectquery = answer
-                    dialectanswer = client.dialectize(dialectquery, dialectsetting)
+                dialect = data['config']['settings']['dialect'].lower() 
+                dialects = ['redneck' , 'jive', 'hckr', 'fudd', 'bork', 'cockney', 'moron', 'piglatin', 'censor']
+                if dialect == "random":
+                    dialect = dialects[random.randint(0,4)]
+                if dialect in dialects:
+                    diaquery = answer
+                    dianswer = client.dialectize(diaquery, dialect)
                     try:
-                        if dialectanswer:
-                            debug = 'Query: ' + dialectquery + ' with dialect: "' + dialectsetting + '" -- Answer: "' + dialectanswer + '"'
+                        if dianswer:
+                            debug = 'Query: ' + diaquery + ' with dialect: "' + dialect + '" -- Answer: "' + dianswer + '"'
                             print debug
-                            data['api'].say(args['channel'], args['nick'] + ': ' + dialectanswer)
-                    except Exception as gizerr:
-                        print gizerr
-                        print "error querying gizoogle"
+                            data['api'].say(args['channel'], args['nick'] + ': ' + dianswer)
+                    except Exception as diaerr:
+                        print diaerr
+                        print "error querying dialectizr"
                         data['api'].say(args['channel'], args['nick'] + ': ' + answer)
                 else:
                     data['api'].say(args['channel'], args['nick'] + ': ' + answer)
