@@ -1,4 +1,4 @@
-#This file contains fuctions available for the plugin developers.
+# This file contains fuctions available for the plugin developers.
 import socket
 import sys
 import re
@@ -11,25 +11,31 @@ import htmlentitydefs
 import collections
 from BeautifulSoup import BeautifulSoup
 
+
 def modeCheck(mode, data):
-        args = argv('@', data['recv'])
-        for user in data['config']['settings']['userModes']:
-            if args['nick'] == user['nick'] and mode in user['modes'] and user['isAuth']:
-                if user['channel'] == args['channel'] or 'g' in user['modes']:
-                    return True
-        return False
+    args = argv('@', data['recv'])
+    for user in data['config']['settings']['userModes']:
+        if args['nick'] == user['nick'] and mode in user['modes'] and user['isAuth']:
+            if user['channel'] == args['channel'] or 'g' in user['modes']:
+                return True
+    return False
+
 
 def saveConfigChanges(config):
     try:
-        f = open('linkbot.conf','w')
-        f.write(json.dumps(config, sort_keys=True, indent=4, separators=(',', ': ')))
+        f = open('linkbot.conf', 'w')
+        f.write(json.dumps(config, sort_keys=True,
+                           indent=4, separators=(',', ': ')))
         f.close()
     except:
         print "[E] Could not save to config file"
 
-def say(channel, message):# A quick way to make the bot say something. Use return say(argv['channel'],message)
+
+# A quick way to make the bot say something. Use return
+# say(argv['channel'],message)
+def say(channel, message):
     if len(message) > 430:
-        messages = [message[i:i+430] for i in range(0, len(message), 430)]
+        messages = [message[i:i + 430] for i in range(0, len(message), 430)]
         retme = []
         for message in messages:
             retme.append('PRIVMSG ' + channel + ' :' + message + '\r\n')
@@ -37,8 +43,10 @@ def say(channel, message):# A quick way to make the bot say something. Use retur
     else:
         return "PRIVMSG " + channel + " :" + message + "\r\n"
 
+
 def html_strip(s):
     return re.sub('<[^<]+?>', '', s)
+
 
 def html_decode(text):
     def fixup(m):
@@ -61,10 +69,11 @@ def html_decode(text):
                     text = unichr(htmlentitydefs.name2codepoint[text[1:-1]])
             except KeyError:
                 pass
-        return text # leave as is
+        return text  # leave as is
     text = makeByte(text)
     fixup = makeByte(fixup)
     return re.sub("&#?\w+;", fixup, text)
+
 
 def makeByte(s):
     if isinstance(s, unicode):
@@ -72,24 +81,29 @@ def makeByte(s):
     else:
         return s
 
-def textbetween(str1,str2,text):# returns the text between str1 and str2 in text. This is useful for parsing data.
-        posstr1 = text.find(str1)
-        posstr2 = text.find(str2)
-        between = text[posstr1 + len(str1):posstr2]
-        return between
 
-def command(command,recv): #finds the argument for a command.
-        if command in recv and command != '':
-            num = recv.find(command)
-            message = recv[num + len(command) + 1:]
-            if message == '':
-                return None
-            else:
-                return message
-        else:
+# returns the text between str1 and str2 in text. This is useful for
+# parsing data.
+def textbetween(str1, str2, text):
+    posstr1 = text.find(str1)
+    posstr2 = text.find(str2)
+    between = text[posstr1 + len(str1):posstr2]
+    return between
+
+
+def command(command, recv):  # finds the argument for a command.
+    if command in recv and command != '':
+        num = recv.find(command)
+        message = recv[num + len(command) + 1:]
+        if message == '':
             return None
+        else:
+            return message
+    else:
+        return None
 
-def argv(user_com,recv):# returns a named, multidimensional array of on recv
+
+def argv(user_com, recv):  # returns a named, multidimensional array of on recv
     # info [nick, user, channel, [argv[0], argv[1], etc..]] (Args are in
     # a separate array)
     m = re.match(
@@ -107,21 +121,26 @@ def argv(user_com,recv):# returns a named, multidimensional array of on recv
         return {'nick': 'Unknown', 'channel': 'Unknown'}
     if com.lower() == "privmsg":
         argc = command(user_com, message)
-        argv = [user_com,]
+        argv = [user_com, ]
         if argc is not None:
             argv += argc.split()
     else:
         argv = []
-    return {'nick' : nick,'channel' : target, 'argv' : argv,
+    return {'nick': nick, 'channel': target, 'argv': argv,
             'ident': ident, 'hostname': host, 'message': message, "command": com}
 
-def gettitle(url):#get the page title of an URL
-    hdr = {'User-Agent': 'Wget/1.13.4 (linux-gnu)',
-       'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-       'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
-       'Accept-Encoding': 'none',
-       'Accept-Language': 'en-US,en;q=0.8',
-       'Connection': 'keep-alive'}
+
+def gettitle(url):  # get the page title of an URL
+    ua_bot = 'Googlebot/1.0'
+    ua_firefox = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.6) ' \
+                 'Gecko/20070725 Firefox/2.0.0.6'
+    ua_wget = 'Wget/1.13.4 (linux-gnu)'
+    hdr = {'User-Agent': ua_bot,
+           'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+           'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
+           'Accept-Encoding': 'none',
+           'Accept-Language': 'en-US,en;q=0.8',
+           'Connection': 'keep-alive'}
     req = urllib2.Request(url, headers=hdr)
     try:
         page = urllib2.urlopen(req)
@@ -131,14 +150,17 @@ def gettitle(url):#get the page title of an URL
         print e.fp.read()
         return False
 
-def geturl(recv):#parse an URL from a string
-    url = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', recv)
+
+def geturl(recv):  # parse an URL from a string
+    url = re.findall(
+        'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', recv)
     if url and url != '':
         return url
     else:
         return False
 
-def maketiny(url):# make a tinyurl from a string
+
+def maketiny(url):  # make a tinyurl from a string
     try:
         html = urllib2.urlopen("http://tinyurl.com/api-create.php?url=" + url)
         tiny = str(html.read())
@@ -146,6 +168,7 @@ def maketiny(url):# make a tinyurl from a string
         return tiny
     except:
         return False
+
 
 def dictUpdate(d, u):
     for k, v in u.iteritems():
@@ -156,9 +179,10 @@ def dictUpdate(d, u):
             d[k] = u[k]
     return d
 
-def dictUnicodeToByte(input):# recurively change unicode values of a dict to byte
+
+def dictUnicodeToByte(input):  # recurively change unicode values of a dict to byte
     if isinstance(input, dict):
-        return {dictUnicodeToByte(key):dictUnicodeToByte(value) for key,value in input.iteritems()}
+        return {dictUnicodeToByte(key): dictUnicodeToByte(value) for key, value in input.iteritems()}
     elif isinstance(input, list):
         return [dictUnicodeToByte(element) for element in input]
     elif isinstance(input, unicode):

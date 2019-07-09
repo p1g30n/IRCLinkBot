@@ -5,7 +5,7 @@ def main(data):
         from HTMLParser import HTMLParser
         from ftfy import fix_text
 
-        args = argv('!wa',data['recv'])
+        args = argv('!wa', data['recv'])
         if args['argv'][1] == "-q":
             quietMode = True
             oQuery = ' '.join(args['argv'][2:])
@@ -28,7 +28,7 @@ def main(data):
                 if answer == None:
                     continue
                 # Strip html entities from the response
-                answer = fix_text(answer)
+                # answer = fix_text(answer)
                 parser = HTMLParser()
                 answer = parser.unescape(answer)
                 # answer = html_decode(str(answer))
@@ -60,14 +60,15 @@ def main(data):
                 else:
                     ircAnswersString += line + '\n'
             data['api'].say(args['channel'], ircAnswersString)
-            if postShortLink:
-                shortLink = maketiny("http://www.wolframalpha.com/input/?i=" + urllib.quote_plus(oQuery))
-                data['api'].say(args['channel'], "More: " + shortLink)
+            # if postShortLink:
+            #     shortLink = maketiny("http://www.wolframalpha.com/input/?i=" + urllib.quote_plus(oQuery))
+            #     data['api'].say(args['channel'], "More: " + shortLink)
         else:
             # We didn't get an answer, make cleverbot reply instead
             # Construct the string that makes the cleverbot plugin respond
             cleverBotFlag = data['config']['settings']['botNick'] + ":"
-            # create a copy of data so we can modify it without affecting other scripts
+            # create a copy of data so we can modify it without affecting other
+            # scripts
             data2 = data.copy()
             # edit the new data variable to flag the cleverbot plugin
             data2['recv'] = data2['recv'].replace("!wa", cleverBotFlag)
