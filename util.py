@@ -79,8 +79,8 @@ def textbetween(str1,str2,text):# returns the text between str1 and str2 in text
         return between
 
 def command(command,recv): #finds the argument for a command.
-        if command in recv and command != '':
-            num = recv.find(command)
+        if command in recv.decode('utf-8') and command != '':
+            num = recv.decode('utf-8').find(command)
             message = recv[num + len(command) + 1:]
             if message == '':
                 return None
