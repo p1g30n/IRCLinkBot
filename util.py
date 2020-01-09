@@ -143,9 +143,11 @@ def maketiny(url):# make a tinyurl from a string
         html = urllib2.urlopen("http://tinyurl.com/api-create.php?url=" + url)
         tiny = str(html.read())
         tiny = tiny.replace("http", "https")
+        print tiny
         return tiny
     except:
-        return False
+        print "tinyurl exception"
+        return ""
 
 def dictUpdate(d, u):
     for k, v in u.iteritems():
