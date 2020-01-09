@@ -8,12 +8,14 @@ def main(data):
     if link and link != "" and not modeCheck('b', data):
         parser = HTMLParser()
         link = link[0]
+        print link;
         # look for title
         badext = ('.cgi','.pdf')
         imgext = ('.jpg','.png','.gif','.bmp')
         if not link[-4:].lower() in badext:
             if not link[-4:].lower() in imgext:
                 title = gettitle(link)
+                print title
                 if title:
                     # encode unicode object to byte string
                     # if type(title) == unicode:
