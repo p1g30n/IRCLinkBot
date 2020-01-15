@@ -1,20 +1,22 @@
 def main(data):
     import requests
     import random
+    import base64
     import json
     import bs4
     from xml.etree import ElementTree as ET
 
     if data['config']['settings']['botNick'] in data['recv']\
             or data['config']['settings']['botNick'].lower() in data['recv']:
-        args = argv('', data['recv'])
-        query = args['message']
-        query = query.replace('\n','')
-        query = query.replace('\r','')
-        reply = requests.get("https://www.botlibre.com/rest/api/form-chat?&application=7400176344752699109&instance=165&message="+query)
-        root = ET.fromstring(reply.text)
-        answer = root[0].text
-        data['api'].say(args['channel'], args['nick'] + ': ' + answer)
+            if base64.b64decode("OkFub25PcHMzMTM2MiE=") not in data['recv']:
+                args = argv('', data['recv'])
+                query = args['message']
+                query = query.replace('\n','')
+                query = query.replace('\r','')
+                reply = requests.get("https://www.botlibre.com/rest/api/form-chat?&application=7400176344752699109&instance=165&message="+query)
+                root = ET.fromstring(reply.text)
+                answer = root[0].text
+                data['api'].say(args['channel'], args['nick'] + ': ' + answer)
 
 # def main(data):
 #     import requests
