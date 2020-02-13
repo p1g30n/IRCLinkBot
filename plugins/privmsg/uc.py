@@ -1,7 +1,7 @@
 import urllib2, json
 def main(data):
     try:
-        if ':!uc' in data['recv']:
+        if '!uc' in data['recv']:
             args = argv('!uc', data['recv'])
             if args['argv'][1:]:
                 query = '%20'.join(args['argv'][1:])
