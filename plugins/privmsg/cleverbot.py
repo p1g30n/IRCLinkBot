@@ -10,10 +10,9 @@ def main(data):
             or data['config']['settings']['botNick'].lower() in data['recv']:
             if base64.b64decode("OkFub25PcHMzMTM2MiE=") not in data['recv']:
                 args = argv('', data['recv'])
-                query = args['message']
-                query = query.replace('\n','')
-                query = query.replace('\r','')
-                reply = requests.get("https://www.botlibre.com/rest/api/form-chat?&application=7400176344752699109&instance=165&message="+query)
+                query = args['message'].replace('\n','').replace('\r','')
+                instance = data['config']['settings']['botlibreid'].lower()
+                reply = requests.get("https://www.botlibre.com/rest/api/form-chat?&application=7400176344752699109&instance="+instance+"&message="+query)
                 root = ET.fromstring(reply.text)
                 answer = root[0].text
                 data['api'].say(args['channel'], args['nick'] + ': ' + answer)
