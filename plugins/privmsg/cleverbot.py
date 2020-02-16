@@ -1,22 +1,45 @@
+### cleverbot "free" ###
 def main(data):
-    import requests
-    import random
+    import subprocess
     import base64
-    import json
-    import bs4
-    from xml.etree import ElementTree as ET
-
+    import re
     if data['config']['settings']['botNick'] in data['recv']\
             or data['config']['settings']['botNick'].lower() in data['recv']:
             if base64.b64decode("OkFub25PcHMzMTM2MiE=") not in data['recv']:
                 args = argv('', data['recv'])
                 query = args['message'].replace('\n','').replace('\r','')
-                instance = data['config']['settings']['botlibreid'].lower()
-                reply = requests.get("https://www.botlibre.com/rest/api/form-chat?&application=7400176344752699109&instance="+instance+"&message="+query)
-                root = ET.fromstring(reply.text)
-                answer = root[0].text
+                query = re.sub(data['config']['settings']['botNick'].lower()+" ", "", query)
+                cbpath = "../cleverbot-free/cleverbot.js"
+                histfile = "../cleverbot-free/history.txt"
+                try:
+                    answer = subprocess.check_output(["node", cbpath, query])
+                except subprocess.CalledProcessError as e:
+                    raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
                 data['api'].say(args['channel'], args['nick'] + ': ' + answer)
+                with open(histfile, "a") as history:
+                    history.write("\n"+query)
 
+### botlibre.com ###
+# def main(data):
+#     import requests
+#     import random
+#     import base64
+#     import json
+#     import bs4
+#     from xml.etree import ElementTree as ET
+
+#     if data['config']['settings']['botNick'] in data['recv']\
+#             or data['config']['settings']['botNick'].lower() in data['recv']:
+#             if base64.b64decode("OkFub25PcHMzMTM2MiE=") not in data['recv']:
+#                 args = argv('', data['recv'])
+#                 query = args['message'].replace('\n','').replace('\r','')
+#                 instance = data['config']['settings']['botlibreid'].lower()
+#                 reply = requests.get("https://www.botlibre.com/rest/api/form-chat?&application=7400176344752699109&instance="+instance+"&message="+query)
+#                 root = ET.fromstring(reply.text)
+#                 answer = root[0].text
+#                 data['api'].say(args['channel'], args['nick'] + ': ' + answer)
+
+### cleverbot.io ###
 # def main(data):
 #     import requests
 #     import random
