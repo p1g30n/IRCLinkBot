@@ -1,6 +1,6 @@
 import re
 def main(data):
-	sups = ["sup", "hi", "yo", "hola", "hello", "gday", "good morning", "good night"]
+	sups = ["sup", "hi", "yo", "hey", "hello", "hola", "gday", "good morning", "good night"]
 	msg = data['recv'].lower().split(":")[2].rstrip("\n\r")
 	print msg
 	for sup in sups:
