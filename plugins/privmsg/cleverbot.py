@@ -17,7 +17,7 @@ def main(data):
                     raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
                 data['api'].say(args['channel'], args['nick'] + ': ' + answer)
                 with open(histfile, "a") as history:
-                    history.write("\n"+query)
+                    history.write(query+"\n")
 
 ### botlibre.com ###
 # def main(data):
