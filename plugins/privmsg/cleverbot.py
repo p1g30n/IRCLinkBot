@@ -7,8 +7,10 @@ def main(data):
             or data['config']['settings']['botNick'].lower() in data['recv']:
             if base64.b64decode("OkFub25PcHMzMTM2MiE=") not in data['recv']:
                 args = argv('', data['recv'])
+                botnick = data['config']['settings']['botNick'].lower();
                 query = args['message'].replace('\n','').replace('\r','')
-                query = re.sub(data['config']['settings']['botNick'].lower()+" ", "", query)
+                query = re.sub(botnick+" ", "", query)
+                query = re.sub(botnick+": ", "", query)
                 cbpath = "../cleverbot-free/cleverbot.js"
                 histfile = "../cleverbot-free/history.txt"
                 try:
