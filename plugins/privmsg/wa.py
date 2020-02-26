@@ -1,5 +1,7 @@
 def main(data):
     if '!wa ' in data['recv']:
+        if any(word.lower() in data['recv'].lower() for word in data['config']['settings']['blocklist']):
+            return
         import urllib
         from BeautifulSoup import BeautifulSoup
         from HTMLParser import HTMLParser

@@ -3,12 +3,8 @@ def main(data):
 	import random
 	import requests
 	from HTMLParser import HTMLParser
-	# if '!jew' in data['recv']:
-	# 	parser = HTMLParser()
-	# 	args = argv('!jew', data['recv'])
-	# 	lines = open('etc/jewish-jokes.txt').read().splitlines()
-	# 	jew = parser.unescape(random.choice(lines))
-	# 	data['api'].say(args['channel'], jew)
+	if any(word.lower() in data['recv'].lower() for word in data['config']['settings']['blocklist']):
+		return
 	if '!yomama' in data['recv']:
 		parser = HTMLParser()
 		args = argv('!jew', data['recv'])

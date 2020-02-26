@@ -4,6 +4,8 @@
 # TaiiwoBot   1   times during dev. (wasn't my fault, I swear)
 def main(data):
     if '!findip ' in data['recv']:
+        if any(word.lower() in data['recv'].lower() for word in data['config']['settings']['blocklist']):
+            return
         args = argv('!findip', data['recv'])
         # GET whois data
         query = ' '.join(args['argv'][1:])
