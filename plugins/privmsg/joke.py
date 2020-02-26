@@ -21,7 +21,7 @@ def main(data):
 		parser = HTMLParser()
 		lines = open('etc/luther.txt').read().splitlines()
 		insult += parser.unescape(random.choice(lines))
-		data['api'].say(args['channel'], insult)	
+		data['api'].say(args['channel'], insult)
 	if '!jok' in data['recv']:
 		args = argv('!joke', data['recv'])
 		try:
