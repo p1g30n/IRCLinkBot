@@ -9,10 +9,8 @@ def main(data):
         search_url = 'https://www.google.com/search?hl=en&q=' + query
         page = opener.open(search_url).read()
         soup = BeautifulSoup(page, "lxml")
-        text = soup.find_all("span", {"class": "st"})
-        link = soup.find_all("div", {"class": "r"})
-        text = text[1].getText()
-        link = link[0].find("a")
+        text = soup.find_all("span", {"class": "st"})[1].getText()
+        link = soup.find_all("div", {"class": "r"})[0].find("a")
         if len(text) == 0:
             data['api'].say(args['channel'], args['nick'] + ': ' + "Nothing bro")
             return
