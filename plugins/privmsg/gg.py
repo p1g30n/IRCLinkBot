@@ -6,8 +6,8 @@ def main(data):
         query = ' '.join(args['argv'][1:])
         opener = urllib2.build_opener()
         opener.addheaders = [('User-agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:73.0) Gecko/20100101 Firefox/73.0')]
-        search_url = 'https://www.google.com/search?hl=en&q=' + query
-        page = opener.open(search_url).read()
+        url = 'https://www.google.com/search?hl=en&q=' + query
+        page = opener.open(url).read()
         soup = BeautifulSoup(page, "lxml")
         text = soup.find_all("span", {"class": "st"})[1].getText()
         link = soup.find_all("div", {"class": "r"})[0].find("a")
@@ -15,4 +15,4 @@ def main(data):
             data['api'].say(args['channel'], args['nick'] + ': ' + "Nothing bro")
             return
         else:
-            data['api'].say(args['channel'], args['nick'] + ': ' + text + " ^ "+ link["href"] +" ^")
+            data['api'].say(args['channel'], text + " ^ "+ link["href"] +" | "+ url +" ^")
