@@ -1,6 +1,8 @@
 def main(data):
     args = False
     coms = ["!G+", "!g+"]
+    if any(word.lower() in data['recv'].lower() for word in data['config']['settings']['blocklist']):
+        return
     for com in coms:
         if com in data['recv']:
             args = argv(com, data['recv'])

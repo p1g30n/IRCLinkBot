@@ -5,21 +5,22 @@ def main(data):
     import re
     if data['config']['settings']['botNick'] in data['recv']\
             or data['config']['settings']['botNick'].lower() in data['recv']:
-            if base64.b64decode("OkFub25PcHMzMTM2MiE=") not in data['recv']:
-                args = argv('', data['recv'])
-                botnick = data['config']['settings']['botNick'].lower();
-                query = args['message'].replace('\n','').replace('\r','')
-                query = re.sub(botnick+" ", "", query)
-                query = re.sub(botnick+": ", "", query)
-                cbpath = "../cleverbot-free/cleverbot.js"
-                histfile = "../cleverbot-free/history.txt"
-                try:
-                    answer = subprocess.check_output(["node", cbpath, query])
-                except subprocess.CalledProcessError as e:
-                    raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
-                data['api'].say(args['channel'], args['nick'] + ': ' + answer)
-                with open(histfile, "a") as history:
-                    history.write(query+"\n")
+            if any(word.lower() in data['recv'].lower() for word in data['config']['settings']['blocklist']):
+                return
+            args = argv('', data['recv'])
+            botnick = data['config']['settings']['botNick'].lower();
+            query = args['message'].replace('\n','').replace('\r','')
+            query = re.sub(botnick+" ", "", query)
+            query = re.sub(botnick+": ", "", query)
+            cbpath = "../cleverbot-free/cleverbot.js"
+            histfile = "../cleverbot-free/history.txt"
+            try:
+                answer = subprocess.check_output(["node", cbpath, query])
+            except subprocess.CalledProcessError as e:
+                raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
+            data['api'].say(args['channel'], args['nick'] + ': ' + answer)
+            with open(histfile, "a") as history:
+                history.write(query+"\n")
 
 ### botlibre.com ###
 # def main(data):
