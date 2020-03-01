@@ -15,7 +15,7 @@ def main(data):
             quietMode = False
             oQuery = ' '.join(args['argv'][1:])
         # URL escape query
-        query = {'input': oQuery, 'appid': 'QPEPAR-TKWEJ3W7VA'}
+        query = {'input': oQuery, 'appid': 'XTKLRA-UAPKWUVLH8'}
         query = urllib.urlencode(query)
         baseUrl = 'http://api.wolframalpha.com/v2/query?'
         response = urllib2.urlopen(baseUrl + query).read()
