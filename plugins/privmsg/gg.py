@@ -3,7 +3,7 @@ def main(data):
     from bs4 import BeautifulSoup
     if '!gg ' in data['recv']:
         args = argv('!gg', data['recv'])
-        query = ' '.join(args['argv'][1:])
+        query = urllib2.quote(' '.join(args['argv'][1:]), safe='')
         opener = urllib2.build_opener()
         opener.addheaders = [('User-agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:73.0) Gecko/20100101 Firefox/73.0')]
         url = 'https://www.google.com/search?hl=en&q=' + query
