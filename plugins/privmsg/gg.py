@@ -7,7 +7,7 @@ def main(data):
         query = urllib2.quote(' '.join(args['argv'][1:]), safe='')
         opener = urllib2.build_opener()
         opener.addheaders = [('User-agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:73.0) Gecko/20100101 Firefox/73.0')]
-        url = 'https://www.google.com/search?hl=en&q=' + query
+        url = 'https://www.google.com/search?hl=en&lr=lang_en&cr=countryUS&q=' + query
         page = opener.open(url).read()
         soup = BeautifulSoup(page, "lxml")
         text = soup.find_all("span", {"class": "st"})[1].getText()
