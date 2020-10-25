@@ -8,5 +8,5 @@ def main(data):
 		if msg == sup:
 			args = argv(sup, data['recv'])
 			if len(args['argv']) == 1:
-				time.sleep(1.2)
+				time.sleep(4.2)
 				data['api'].say(args['channel'], sup)
