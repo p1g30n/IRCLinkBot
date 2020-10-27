@@ -141,9 +141,8 @@ def geturl(recv):#parse an URL from a string
 
 def maketiny(url):# make a tinyurl from a string
     try:
-        html = urllib2.urlopen("http://tinyurl.com/api-create.php?url=" + url)
+        html = urllib2.urlopen("https://tinyurl.com/api-create.php?url=" + url)
         tiny = str(html.read())
-        tiny = tiny.replace("http", "https")
         print tiny
         return tiny
     except:
