@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+import re
 def main(data):
     from ftfy import fix_text
     from HTMLParser import HTMLParser
@@ -10,10 +11,15 @@ def main(data):
         link = link[0]
         print link;
         # look for title
+        regext = re.search(r'\.[A-Za-z0-9]+$', link.lower())
+        if regext is not None:
+            ext = regext.group(0)
+        else:
+            ext = ''
         badext = ('.cgi','.pdf', '.mp4', '.avi', '.exe', '.dmg', '.zip', '.rar', '.webm')
         imgext = ('.jpg','.png','.gif','.bmp')
-        if not link[-4:].lower() in badext:
-            if not link[-4:].lower() in imgext:
+        if not ext in badext:
+            if not ext in imgext:
                 title = gettitle(link)
                 print title
                 if title:
