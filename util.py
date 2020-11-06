@@ -133,7 +133,7 @@ def gettitle(url):#get the page title of an URL
         return False
 
 def geturl(recv):#parse an URL from a string
-    url = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', recv)
+    url = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_~@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', recv)
     if url and url != '':
         return url
     else:
