@@ -10,7 +10,7 @@ def main(data):
         link = link[0]
         print link;
         # look for title
-        badext = ('.cgi','.pdf', '.mp4', '.avi', '.exe', '.dmg', '.zip', '.rar')
+        badext = ('.cgi','.pdf', '.mp4', '.avi', '.exe', '.dmg', '.zip', '.rar', '.webm')
         imgext = ('.jpg','.png','.gif','.bmp')
         if not link[-4:].lower() in badext:
             if not link[-4:].lower() in imgext:
