@@ -12,10 +12,7 @@ def main(data):
         print link;
         # look for title
         regext = re.search(r'\.[A-Za-z0-9]+$', link.lower())
-        if regext is not None:
-            ext = regext.group(0)
-        else:
-            ext = ''
+        ext = regext.group(0) if regext is not None else ''
         badext = ('.cgi','.pdf', '.mp4', '.avi', '.exe', '.dmg', '.zip', '.rar', '.webm')
         imgext = ('.jpg','.png','.gif','.bmp')
         if not ext in badext:
@@ -43,18 +40,20 @@ def main(data):
                         return
             else:
                 # We've got an image URL.
-                from alchemyapi import AlchemyAPI
-                alchemyapi = AlchemyAPI()
-                response = alchemyapi.imageTagging('url', link)
-                if response['status'] == 'OK' and response['imageKeywords'][0]['text'] != 'NO_TAGS':
-                    retme = "^ Image of: "
-                    for keyword in response['imageKeywords']:
-                        retme += "%s(%s%%) " % (keyword['text'], int(float(keyword['score']) * 100))
-                    if len(link) > int(data['config']['settings']['maxLinkLen']):
-                        retme += maketiny(link) + " "
-                    retme += "^"
-                    data['api'].say(args['channel'], retme)
-                    return
+                # Todo: Replace AlchemyAPI 
+
+                #from alchemyapi import AlchemyAPI
+                #alchemyapi = AlchemyAPI()
+                #response = alchemyapi.imageTagging('url', link)
+                #if response['status'] == 'OK' and response['imageKeywords'][0]['text'] != 'NO_TAGS':
+                #    retme = "^ Image of: "
+                #    for keyword in response['imageKeywords']:
+                #        retme += "%s(%s%%) " % (keyword['text'], int(float(keyword['score']) * 100))
+                #    if len(link) > int(data['config']['settings']['maxLinkLen']):
+                #        retme += maketiny(link) + " "
+                #    retme += "^"
+                #    data['api'].say(args['channel'], retme)
+                #    return
         if len(link) > int(data['config']['settings']['maxLinkLen']):
             # post tiny only
             data['api'].say(args['channel'], '^ ' + maketiny(link) + ' ^')
