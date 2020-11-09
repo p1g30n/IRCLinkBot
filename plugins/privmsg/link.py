@@ -39,6 +39,7 @@ def main(data):
                         data['api'].say(args['channel'], '^ ' + title + ' ^')
                         return
             else:
+                return
                 # We've got an image URL.
                 # Todo: Replace AlchemyAPI 
 
